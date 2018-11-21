@@ -38,4 +38,14 @@ class RPNCalculator
   def value
     array.last
   end
+
+  def tokens(string)
+    string.split.map do |item| 
+      if item.match(/^[0-9]*$/)
+        item.to_i 
+      else 
+        item.to_sym
+      end
+    end
+  end
 end
