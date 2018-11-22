@@ -51,19 +51,19 @@ class RPNCalculator
 
   def evaluate(string)
     tokens(string).map do |value|
-      if value.is_a? Integer
-        array.push(value)
-      else
-        case value
-        when :+ then plus   
-        when :- then minus
-        when :* then times
-        when :/ then divide
-        end
-      end
+      value.is_a?(Integer) ? array.push(value) : do_operation(value)
     end
     result = array.join.to_f
-    @array = []
+    @array.clear
     result
+  end
+
+  def do_operation(operation)
+    case operation
+    when :+ then plus   
+    when :- then minus
+    when :* then times
+    when :/ then divide
+    end
   end
 end
