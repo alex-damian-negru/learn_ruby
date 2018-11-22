@@ -25,7 +25,7 @@ class RPNCalculator
     raise "calculator is empty" if array.length < 2
     result = array.last
     array.pop
-    array[-1] *= result.to_f
+    array[-1] *= result
   end
 
   def divide
@@ -47,5 +47,23 @@ class RPNCalculator
         item.to_sym
       end
     end
+  end
+
+  def evaluate(string)
+    tokens(string).map do |value|
+      if value.is_a? Integer
+        array.push(value)
+      else
+        case value
+        when :+ then plus   
+        when :- then minus
+        when :* then times
+        when :/ then divide
+        end
+      end
+    end
+    result = array.join.to_f
+    @array = []
+    result
   end
 end
