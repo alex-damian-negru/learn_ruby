@@ -88,10 +88,12 @@ describe Fixnum do
 
   it "reads millions" do
     10_000_001.in_words.should == 'ten million one'
+    121_231_512.in_words.should == 'one hundred twenty one million two hundred thirty one thousand five hundred twelve'
   end
 
   it "reads billions" do
     1_234_567_890.in_words.should == 'one billion two hundred thirty four million five hundred sixty seven thousand eight hundred ninety'
+    123_234_567_890.in_words.should == 'one hundred twenty three billion two hundred thirty four million five hundred sixty seven thousand eight hundred ninety'
   end
 
   it "reads trillions" do
