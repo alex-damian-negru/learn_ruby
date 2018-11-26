@@ -4,6 +4,12 @@ Fixnum.class_eval do
       "zero", "one", "two", "three", "four", 
       "five", "six", "seven", "eight", "nine"
     ]
-    zero_to_nine[self]
+    ten_to_twelve = ["ten", "eleven", "twelve"]
+
+    if self < 10
+      zero_to_nine[self]
+    else
+      ten_to_twelve[self % 10]
+    end
   end
 end
