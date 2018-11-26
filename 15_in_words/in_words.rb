@@ -4,21 +4,24 @@ Fixnum.class_eval do
       "zero", "one", "two", "three", "four", 
       "five", "six", "seven", "eight", "nine"
     ]
+
     ten_to_nineteen = [
       "ten", "eleven", "twelve", "thirteen", 
       "fourteen", "fifteen", "sixteen", 
       "seventeen", "eighteen", "nineteen"
     ]
 
+    tens = [
+      "twenty", "thirty", "forty", "fifty",
+      "sixty", "seventy", "eighty", "ninety"
+    ]
+
     if self < 10 
       zero_to_nine[self]
-    elsif self >= 10 
+    elsif self >= 10 && self < 20
       ten_to_nineteen[self % 10]
+    else
+      tens[self / 10 - 2]
     end
-    # if self < 10
-    #   zero_to_nine[self]
-    # else
-    #   ten_to_twelve[self % 10]
-    # end
   end
 end
