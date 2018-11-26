@@ -6,4 +6,8 @@ Array.class_eval do
   def square
     map { |num| num ** 2}
   end
+
+  def square!
+    map! { |num| num ** 2}    
+  end
 end
