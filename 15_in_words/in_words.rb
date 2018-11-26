@@ -20,8 +20,10 @@ Fixnum.class_eval do
       zero_to_nine[self]
     elsif self >= 10 && self < 20
       ten_to_nineteen[self % 10]
-    else
+    elsif self % 10 == 0
       tens[self / 10 - 2]
+    else
+      tens[self % 10 - 2] + " " + zero_to_nine[self % 10]
     end
   end
 end
