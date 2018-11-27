@@ -14,8 +14,7 @@ Fixnum.class_eval do
     ]
 
     get_tens = ->(n) { 
-      case n
-      when 11..19 
+      if n < 20
         zero_to_nineteen[n]
       else 
         tens[n / 10] + (n % 10 == 0 ? "" : " " + zero_to_nineteen[n % 10]) 
@@ -44,7 +43,7 @@ Fixnum.class_eval do
       if n / 10**6 >= 10**2
         get_hundreds.call(n / 10**6) + " million" + (n % 10**6  == 0 ? "" : " " + get_thousands.call(n % 10**6))
       elsif n / 10**6 > 0
-        get_tens.call(n / 10**6).lstrip + " million" + (n % 10**6 == 0 ? "" : get_thousands.call(n % 10**6))
+        get_tens.call(n / 10**6).lstrip + " million" + (n % 10**6 == 0 ? "" : " " + get_thousands.call(n % 10**6))
       else  
         get_thousands.call(n % 10**6)
       end
@@ -64,7 +63,7 @@ Fixnum.class_eval do
       if n / 10**12 >= 10**2
         get_hundreds.call(n / 10**12) + " trillion" + (n % 10**12  == 0 ? "" : " " + get_billions.call(n % 10**12))
       elsif n / 10**12 > 0
-        get_tens.call(n / 10**12).lstrip + " trillion"  + (n % 10**12 == 0 ? "" : get_billions.call(n % 10**12))
+        get_tens.call(n / 10**12).lstrip + " trillion"  + (n % 10**12 == 0 ? "" : " " + get_billions.call(n % 10**12))
       else
         get_billions.call(n % 10**12)
       end
