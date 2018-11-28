@@ -24,54 +24,35 @@ module InWords
     zero_to_nineteen(n / 100) + " hundred" + (n % 100  == 0 ? "" : " " + get_tens(n % 100))
   end
 
+  def get_upto_trillions(n)
+    words = ""
+    digits = 10**12
+    ["trillion", "billion", "million", "thousand", ""].map do |group|
+      if n / digits >= 100
+        curr_group = get_hundreds(n / digits) + " #{group}"
+        words += curr_group + (n % digits > 0 ? " " : "")
+        n %= digits
+        digits /= 10**3
+
+      elsif n / digits > 0
+        curr_group = get_tens(n / digits) + " #{group}"
+        words += curr_group + (n % digits > 0 ? " " : "")
+        n %= digits
+        digits /= 10**3
+        
+      else
+        digits /= 10**3
+      end
+    end
+    words.end_with?(" ") ? words[0..-2] : words
+  end
+
   def in_words
-    get_thousands = ->(n) {
-      if n / 10**3 >= 100
-        get_hundreds(n / 10**3) + " thousand" + (n % 10**3 == 0 ? "" : " " + get_hundreds(n % 10**3))
-      elsif n / 10**3 > 0
-        get_tens(n / 10**3).lstrip + " thousand" + (n % 10**3 == 0 ? "" : " " + get_hundreds(n % 10**3))
-      else
-        get_hundreds(n % 10**3)
-      end
-    }
-
-    get_millions  = ->(n) {
-      if n / 10**6 >= 100
-        get_hundreds(n / 10**6) + " million" + (n % 10**6  == 0 ? "" : " " + get_thousands.call(n % 10**6))
-      elsif n / 10**6 > 0
-        get_tens(n / 10**6).lstrip + " million" + (n % 10**6 == 0 ? "" : " " + get_thousands.call(n % 10**6))
-      else  
-        get_thousands.call(n % 10**6)
-      end
-    }
-
-    get_billions  = ->(n) {
-      if n / 10**9 >= 100
-        get_hundreds(n / 10**9) + " billion" + (n % 10**9  == 0 ? "" : " " + get_millions.call(n % 10**9))
-      elsif n / 10**9 > 0
-        get_tens(n / 10**9).lstrip + " billion"  + (n % 10**9 == 0 ? "" : " " + get_millions.call(n % 10**9))
-      else
-        get_millions.call(n % 10**9)
-      end  
-    }
-
-    get_trillions = ->(n) {
-      if n / 10**12 >= 100
-        get_hundreds(n / 10**12) + " trillion" + (n % 10**12  == 0 ? "" : " " + get_billions.call(n % 10**12))
-      elsif n / 10**12 > 0
-        get_tens(n / 10**12).lstrip + " trillion"  + (n % 10**12 == 0 ? "" : " " + get_billions.call(n % 10**12))
-      else
-        get_billions.call(n % 10**12)
-      end
-    }
-
-    if    self < 20     then zero_to_nineteen(self)
-    elsif self < 100    then get_tens(self)
-    elsif self < 10**3  then get_hundreds(self)
-    elsif self < 10**6  then get_thousands.call(self)
-    elsif self < 10**9  then get_millions.call(self)
-    elsif self < 10**12 then get_billions.call(self)
-    elsif self < 10**15 then get_trillions.call(self)
+    case self
+    when 0...20     then zero_to_nineteen(self)
+    when 20...100   then get_tens(self)
+    when 100...1000 then get_hundreds(self)
+    else get_upto_trillions(self)
     end
   end
 end
