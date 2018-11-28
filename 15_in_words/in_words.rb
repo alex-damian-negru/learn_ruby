@@ -14,19 +14,13 @@ module InWords
     ]
 
     get_tens = ->(n) { 
-      if n < 20
-        zero_to_nineteen[n]
-      else 
-        tens[n / 10] + (n % 10 == 0 ? "" : " " + zero_to_nineteen[n % 10]) 
-      end
+      return zero_to_nineteen[n] if n < 20
+      tens[n / 10] + (n % 10 == 0 ? "" : " " + zero_to_nineteen[n % 10]) 
     }
 
     get_hundreds  = ->(n) {
-      if n / 100 > 0 
-        zero_to_nineteen[n / 100] + " hundred" + (n % 100  == 0 ? "" : " " + get_tens.call(n % 100))
-      else
-        get_tens[n % 100]
-      end
+      return get_tens[n % 100] if n / 100 == 0 
+      zero_to_nineteen[n / 100] + " hundred" + (n % 100  == 0 ? "" : " " + get_tens.call(n % 100))
     }
 
     get_thousands = ->(n) {
