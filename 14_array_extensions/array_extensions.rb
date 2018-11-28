@@ -4,10 +4,10 @@ Array.class_eval do
   end
 
   def square
-    map { |num| num ** 2}
+    map { |num| num ** 2 }
   end
 
   def square!
-    map! { |num| num ** 2}    
+    map! { |num| num ** 2 }    
   end
 end
