@@ -28,32 +28,36 @@ module InWords
     words = ""
     digits = 10**12
     ["trillion", "billion", "million", "thousand", ""].map do |group|
-      if n / digits >= 100
-        curr_group = get_hundreds(n / digits) + " #{group}"
-        words += curr_group + (n % digits > 0 ? " " : "")
+      if hundreds?(n, digits)
+        words += get_hundreds(n / digits) + " #{group}" + space(n, digits)
         n %= digits
-        digits /= 10**3
-
-      elsif n / digits > 0
-        curr_group = get_tens(n / digits) + " #{group}"
-        words += curr_group + (n % digits > 0 ? " " : "")
+        digits /= 1000
+      elsif tens?(n, digits)
+        words += get_tens(n / digits) + " #{group}" + space(n, digits)
         n %= digits
-        digits /= 10**3
-        
+        digits /= 1000
       else
-        digits /= 10**3
+        digits /= 1000
       end
     end
     words.end_with?(" ") ? words[0..-2] : words
   end
 
+  def hundreds?(n, digits)
+    n / digits >= 100
+  end
+
+  def tens?(n, digits)
+    n / digits > 0
+  end
+  
+  def space(n, digits)
+    n % digits > 0 ? " " : ""
+  end
+
   def in_words
-    case self
-    when 0...20     then zero_to_nineteen(self)
-    when 20...100   then get_tens(self)
-    when 100...1000 then get_hundreds(self)
-    else get_upto_trillions(self)
-    end
+    return zero_to_nineteen(self) if self < 20
+    get_upto_trillions(self)
   end
 end
 
