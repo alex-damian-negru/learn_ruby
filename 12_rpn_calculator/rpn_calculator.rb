@@ -1,7 +1,6 @@
-# Context
 class RPNCalculator
   attr_reader :array
-  attr_accessor :strategy
+  attr_reader :strategy
 
   def initialize
     @array = []
@@ -55,11 +54,10 @@ class RPNCalculator
       end
     end
     result = array.join.to_f
-    @array.clear
+    array.clear
     result
   end
 
-  # TODO find out why plain `strategy` does not work
   def set_operation(operation)
     @strategy = case operation
     when :+ then Addition.new   
@@ -73,19 +71,16 @@ class RPNCalculator
     raise "calculator is empty" if array.length < 2
     val1 = array.pop
     val2 = array.pop
-    array << @strategy.do_operation(val2, val1)
+    array << strategy.do_operation(val2, val1)
   end
 end
 
-# Common interface for all strategies
-# EDIT: Is this needed?
 class Operation
-  def do_operation
-    raise NotImplementedError, 'Ask the subclass'
+  def do_operation(val1, val2)
+    raise NotImplementedError, 'Method must be implemented in the child class'
   end
 end
 
-# Concrete strategies
 class Addition < Operation
   def do_operation(val1, val2)
     val1 + val2
