@@ -59,12 +59,7 @@ class RPNCalculator
   end
 
   def set_operation(operation)
-    @strategy = case operation
-    when :+ then Addition.new   
-    when :- then Subtraction.new
-    when :* then Multiplication.new
-    when :/ then Division.new
-    end
+    @strategy = OperationFactory.create(operation)
   end
 
   def execute_operation
@@ -72,6 +67,17 @@ class RPNCalculator
     val1 = array.pop
     val2 = array.pop
     array << strategy.do_operation(val2, val1)
+  end
+end
+
+class OperationFactory
+  def self.create(operation)
+    case operation
+    when :+ then Addition.new
+    when :- then Subtraction.new
+    when :* then Multiplication.new
+    when :/ then Division.new   
+    end
   end
 end
 
