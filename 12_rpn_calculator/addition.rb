@@ -1,4 +1,4 @@
-require 'Operation'
+require 'operation'
 
 class Addition < Operation
   def compute(val1, val2)

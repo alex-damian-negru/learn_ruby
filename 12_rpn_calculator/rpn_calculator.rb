@@ -1,4 +1,4 @@
-require 'OperationFactory'
+require 'operation_factory'
 
 class RPNCalculator
   attr_reader :array

@@ -1,7 +1,7 @@
-require 'Addition'
-require 'Subtraction'
-require 'Multiplication'
-require 'Division'
+require 'addition'
+require 'subtraction'
+require 'multiplication'
+require 'division'
 
 class OperationFactory
   def self.create(operation)
