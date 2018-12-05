@@ -1,6 +1,5 @@
 class RPNCalculator
   attr_reader :array
-  attr_reader :strategy
 
   def initialize
     @array = []
@@ -15,23 +14,19 @@ class RPNCalculator
   end
 
   def plus
-    set_operation(:+)
-    execute_operation
+    do_operation(:+)
   end
 
   def minus
-    set_operation(:-)
-    execute_operation
+    do_operation(:-)
   end
 
   def times
-    set_operation(:*)
-    execute_operation
+    do_operation(:*)
   end
 
   def divide
-    set_operation(:/)
-    execute_operation
+    do_operation(:/)
   end
 
   def tokens(string)
@@ -46,27 +41,19 @@ class RPNCalculator
 
   def evaluate(string)
     tokens(string).map do |value|
-      if value.is_a?(Integer)
-        array.push(value)
-      else
-        set_operation(value)
-        execute_operation
-      end
+      value.is_a?(Integer) ? array.push(value) : do_operation(value)
     end
     result = array.join.to_f
     array.clear
     result
   end
 
-  def set_operation(operation)
-    @strategy = OperationFactory.create(operation)
-  end
-
-  def execute_operation
+  def do_operation(operation)
     raise "calculator is empty" if array.length < 2
+    strategy = OperationFactory.create(operation)
     val1 = array.pop
     val2 = array.pop
-    array << strategy.do_operation(val2, val1)
+    array << strategy.compute(val2, val1)
   end
 end
 
@@ -88,25 +75,25 @@ class Operation
 end
 
 class Addition < Operation
-  def do_operation(val1, val2)
+  def compute(val1, val2)
     val1 + val2
   end
 end
 
 class Subtraction < Operation
-  def do_operation(val1, val2)
+  def compute(val1, val2)
     val1 - val2
   end
 end
 
 class Multiplication < Operation
-  def do_operation(val1, val2)
+  def compute(val1, val2)
     val1 * val2
   end
 end
 
 class Division < Operation
-  def do_operation(val1, val2)
+  def compute(val1, val2)
     val1 / val2.to_f
   end
 end
