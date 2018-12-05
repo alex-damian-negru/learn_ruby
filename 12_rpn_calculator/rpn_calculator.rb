@@ -1,3 +1,5 @@
+require 'OperationFactory'
+
 class RPNCalculator
   attr_reader :array
 
@@ -54,46 +56,5 @@ class RPNCalculator
     val1 = array.pop
     val2 = array.pop
     array << strategy.compute(val2, val1)
-  end
-end
-
-class OperationFactory
-  def self.create(operation)
-    case operation
-    when :+ then Addition.new
-    when :- then Subtraction.new
-    when :* then Multiplication.new
-    when :/ then Division.new   
-    end
-  end
-end
-
-class Operation
-  def do_operation(val1, val2)
-    raise NotImplementedError, 'Method must be implemented in the child class'
-  end
-end
-
-class Addition < Operation
-  def compute(val1, val2)
-    val1 + val2
-  end
-end
-
-class Subtraction < Operation
-  def compute(val1, val2)
-    val1 - val2
-  end
-end
-
-class Multiplication < Operation
-  def compute(val1, val2)
-    val1 * val2
-  end
-end
-
-class Division < Operation
-  def compute(val1, val2)
-    val1 / val2.to_f
   end
 end
