@@ -17,35 +17,37 @@ class TagBuilder
 
   def build
     tokens = []
-    tokens << "<#{@name}"
-    tokens << @attributes.map { |k, v| " #{k}='#{v}'" }
 
-    if @content.nil?
-      tokens << '/>'
+    if self_closing_tag?
+      tokens << "<#{@name}#{attributes}/>"
     else
-      tokens << add_content
+      tokens << "<#{@name}#{attributes}>"
+      tokens << @content
+      tokens << "</#{@name}>"
     end
+
+    prettify_tokens!(tokens) if @pretty
+
     tokens.join
   end
 
   private
-  def add_content
-    tokens = []
-    tokens << '>' << format(@content) << "</#{@name}>"
-    tokens << "\n" if @pretty
-    tokens
+
+  def self_closing_tag?
+    @content.nil?
   end
 
-  def format(content)
-    tokens = []
-    unless @pretty
-      tokens << content  
-    else
-      pretty_content = content.split("\n")
-        .map { |line| "  #{line}" }
-        .join("\n")
-      tokens << "\n" << pretty_content << "\n"
+  def prettify_tokens!(tokens)
+    unless self_closing_tag?
+      tokens[1] = tokens[1].split("\n")
+      .map { |line| "  #{line}" }
+      .join("\n")
     end
-    tokens
+
+    tokens.map! { |token| "#{token}\n"  }
+  end
+
+  def attributes
+    @attributes.map { |k, v| " #{k}='#{v}'" }.join
   end
 end 
