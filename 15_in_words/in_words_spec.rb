@@ -70,6 +70,7 @@ describe Fixnum do
 
   it "reads hundreds" do
     100.in_words.should == 'one hundred'
+    101.in_words.should == 'one hundred one'
     200.in_words.should == 'two hundred'
     300.in_words.should == 'three hundred'
     123.in_words.should == 'one hundred twenty three'
@@ -83,16 +84,19 @@ describe Fixnum do
     1000.in_words.should == 'one thousand'
     32767.in_words.should == 'thirty two thousand seven hundred sixty seven'
     32768.in_words.should == 'thirty two thousand seven hundred sixty eight'
+    320768.in_words.should == 'three hundred twenty thousand seven hundred sixty eight'
   end
-
+  
   it "reads millions" do
     10_000_001.in_words.should == 'ten million one'
+    121_231_512.in_words.should == 'one hundred twenty one million two hundred thirty one thousand five hundred twelve'
   end
-
+  
   it "reads billions" do
     1_234_567_890.in_words.should == 'one billion two hundred thirty four million five hundred sixty seven thousand eight hundred ninety'
+    123_234_567_890.in_words.should == 'one hundred twenty three billion two hundred thirty four million five hundred sixty seven thousand eight hundred ninety'
   end
-
+  
   it "reads trillions" do
     1_000_000_000_000.in_words.should == 'one trillion'
     1_000_000_000_001.in_words.should == 'one trillion one'
